@@ -139,13 +139,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Node.h" />
-    <ClInclude Include="..\Node2.h" />
-    <ClInclude Include="..\PriQ.h" />
-    <ClInclude Include="..\Queue.h" />
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Mission.cpp" />
+    <ClCompile Include="Mission_Emergency.cpp" />
+    <ClCompile Include="Mission_Polar.cpp" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClInclude Include="..\data sturctures\Node.h" />
+    <ClInclude Include="..\data sturctures\Node2.h" />
+    <ClInclude Include="..\data sturctures\PriQ.h" />
+    <ClInclude Include="..\data sturctures\Queue.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="Mission.h" />
+    <ClInclude Include="Mission_Emergency.h" />
+    <ClInclude Include="Mission_Polar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
