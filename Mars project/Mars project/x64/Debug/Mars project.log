@@ -1,4 +1,8 @@
-﻿  Mission.cpp
+﻿  Rover.cpp
+  Rover_Emergency.cpp
+D:\Ali kolya\Ali Year 1\Projects & Assignments\Term 2\Data Structures and Algorithms\Project\Phase 2\Mars_Exploration-Data-structure\Mars project\Mars project\Rover_Emergency.cpp(15,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Rover_Polar.cpp
+D:\Ali kolya\Ali Year 1\Projects & Assignments\Term 2\Data Structures and Algorithms\Project\Phase 2\Mars_Exploration-Data-structure\Mars project\Mars project\Rover_Polar.cpp(15,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Source.cpp
   Generating Code...
-  Mars project.vcxproj -> E:\Mars_Project\Mars project\x64\Debug\Mars project.exe
+  Mars project.vcxproj -> D:\Ali kolya\Ali Year 1\Projects & Assignments\Term 2\Data Structures and Algorithms\Project\Phase 2\Mars_Exploration-Data-structure\Mars project\x64\Debug\Mars project.exe

@@ -16,6 +16,9 @@
     <Filter Include="Missions">
       <UniqueIdentifier>{5abf88f9-924a-491d-8040-1117070ee800}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rovers">
+      <UniqueIdentifier>{bd78928c-2dd4-43bf-9a1e-8e4f1b162058}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -32,6 +35,15 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Missions</Filter>
+    </ClCompile>
+    <ClCompile Include="Rover.cpp">
+      <Filter>Rovers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rover_Polar.cpp">
+      <Filter>Rovers</Filter>
+    </ClCompile>
+    <ClCompile Include="Rover_Emergency.cpp">
+      <Filter>Rovers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +70,15 @@
     </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>Missions</Filter>
+    </ClInclude>
+    <ClInclude Include="Rover.h">
+      <Filter>Rovers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rover_Polar.h">
+      <Filter>Rovers</Filter>
+    </ClInclude>
+    <ClInclude Include="Rover_Emergency.h">
+      <Filter>Rovers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

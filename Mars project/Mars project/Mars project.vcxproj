@@ -143,6 +143,9 @@
     <ClCompile Include="Mission.cpp" />
     <ClCompile Include="Mission_Emergency.cpp" />
     <ClCompile Include="Mission_Polar.cpp" />
+    <ClCompile Include="Rover.cpp" />
+    <ClCompile Include="Rover_Emergency.cpp" />
+    <ClCompile Include="Rover_Polar.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +157,9 @@
     <ClInclude Include="Mission.h" />
     <ClInclude Include="Mission_Emergency.h" />
     <ClInclude Include="Mission_Polar.h" />
+    <ClInclude Include="Rover.h" />
+    <ClInclude Include="Rover_Emergency.h" />
+    <ClInclude Include="Rover_Polar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
