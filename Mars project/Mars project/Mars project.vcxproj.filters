@@ -45,6 +45,9 @@
     <ClCompile Include="Rover_Emergency.cpp">
       <Filter>Rovers</Filter>
     </ClCompile>
+    <ClCompile Include="MarsStation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\data sturctures\Node.h">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="Rover_Emergency.h">
       <Filter>Rovers</Filter>
+    </ClInclude>
+    <ClInclude Include="MarsStation.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
