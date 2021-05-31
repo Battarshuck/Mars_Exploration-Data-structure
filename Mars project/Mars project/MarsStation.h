@@ -21,10 +21,10 @@ private:
 	Queue<Mission*> missions_polar;     // first come first serve
 	Queue<Mission*> missions_completed; // placed according to completion day
 
-	PriQ<Rover> rovers_emergency;     // sorted according to speed
-	PriQ<Rover> rovers_polar;         // sorted according to speed
-	PriQ<Rover> rovers_inexecution;   // sorted according to completion day
-	Queue<Rover> rovers_checkup;      // checkup queue for rovers
+	PriQ<Rover*> rovers_emergency;     // sorted according to speed
+	PriQ<Rover*> rovers_polar;         // sorted according to speed
+	PriQ<Rover*> rovers_inexecution;   // sorted according to completion day
+	Queue<Rover*> rovers_checkup;      // checkup queue for rovers
 
 	UI* UserInterface;				  // pointer to user interface
 

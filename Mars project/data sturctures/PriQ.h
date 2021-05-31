@@ -16,6 +16,7 @@ public:
 	PriQ(int c = 50);
 	bool insert(T x, int p);
 	T extract_max();
+	T peek();
 };
 
 template <typename T>
@@ -91,6 +92,11 @@ T PriQ<T>::extract_max() {
 	size--;
 	reheap_down(0);
 	return x->getdata();
+}
+
+template <typename T>
+T PriQ<T>::peek() {
+	return heap[0]->getdata();
 }
 
 
