@@ -22,20 +22,27 @@ UI* MarsStation::get_UI() const
 
 void MarsStation::simulate()
 {
-
+	
 	while (current_day != 20)
 	{
 		current_day++;
-		//1-Events to be formulated
+		//1-Events to be formulated [a]
 		check_events();
+		//2-check if in-execution missions are done, to return rovers (mostafa) [ sh8al 3l execution ]
+		// mn in execution le available aw checkup
 
-		//2-Check first for emergency mission then polar 
-		//3-check if in-execution missions are done
-		//if yes send them to the missions_completed
-		//4-movement of rovers
-		//5-printing in the UI class
+
+		//3-Check first for emergency mission then polar to assign them to rover (hashish)
+		
+
+		//4-movement of rovers through lists (hashish)  [ sh8al 3l waiting ] 
+		// mn available to in execution
+		
+	
+		//5-printing in the UI class (farah) [e,f]
+
 	}
-
+	// UI.save
 }
 
 void MarsStation::check_events()
