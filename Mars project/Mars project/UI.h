@@ -21,13 +21,15 @@ private:
 	int Num_Events;		  // number of events
 	//Event** Event_List = new Event* [Num_Events]; dh hyb2a fl marsstation
 
+	void Fill_Events(ifstream& fin, Queue<Event*>& Event_List);  // Takes empty list of events from MarsStation
+																// and fills it with the events read from file
+
 public:
 	//UI(int, int, int, int, int, int, int, int);
 	UI();
+	int get_NumEvents();
+	void Read_File(Queue<Event*>& Event_List);	// reads input from file, and calls Fill_Events
 
-	void Read_File(Queue<Event>& Event_List);	// reads input from file, and calls Fill_Events
-
-	void Fill_Events(ifstream& fin, Queue<Event>& Event_List);  // Takes empty list of events from MarsStation
-											                	// and fills it with the events read from file
+	
 };
 

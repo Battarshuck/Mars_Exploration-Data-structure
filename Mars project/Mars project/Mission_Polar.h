@@ -5,6 +5,6 @@ class Mission_Polar :
 {
 
 public:
-    Mission_Polar(int, int, int);
+    Mission_Polar(int, int, int, int);
 };
 

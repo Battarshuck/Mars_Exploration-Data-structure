@@ -18,7 +18,12 @@ UI::UI()
 
 }
 
-void UI::Read_File(Queue<Event>& Event_List)
+int UI::get_NumEvents()
+{
+	return Num_Events;
+}
+
+void UI::Read_File(Queue<Event*>& Event_List)
 {
 	string filename;
 	cout << "Enter file name to be loaded: ";
@@ -43,7 +48,7 @@ void UI::Read_File(Queue<Event>& Event_List)
 
 }
 
-void UI::Fill_Events(ifstream& fin, Queue<Event>& Event_List)
+void UI::Fill_Events(ifstream& fin, Queue<Event*>& Event_List)
 {
 	char type;
 	int event_day, id, distance, num_days, sig;
@@ -54,7 +59,7 @@ void UI::Fill_Events(ifstream& fin, Queue<Event>& Event_List)
 		// Notice that type is overwritten first time
 		// This is because the event is always formulation event anyway
 
-		Event Formulation(type, event_day, id, distance, num_days, sig);
+		Event* Formulation = new Event(type, event_day, id, distance, num_days, sig);
 		Event_List.enqueue(Formulation);
 	}
 

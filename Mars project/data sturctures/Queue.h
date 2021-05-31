@@ -12,7 +12,7 @@ public:
 	bool isEmpty() const;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
-	//bool peek(T& frntEntry)  const;
+	bool peek(T& frntEntry)  const;
 	//void print() const;
 	~Queue();
 
@@ -101,4 +101,15 @@ Queue<T>::Queue(const Queue<T>& LQ)
 		backPtr = ptr;
 		Node2Ptr = Node2Ptr->getNext();
 	}
+}
+
+template <typename T>
+bool Queue<T>::peek(T& frntEntry) const
+{
+	if (isEmpty())
+		return false;
+
+	frntEntry = frontPtr->getItem();
+	return true;
+
 }

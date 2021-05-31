@@ -1,8 +1,4 @@
 #include "Event.h"
-#include "Mission.h"
-#include "Mission_Emergency.h"
-#include "Mission_Polar.h"
-
 Event::Event()
 {
 	type = 'N';
@@ -28,19 +24,35 @@ int Event::get_ExecuteDay()
 	return event_day;
 }
 
-void Event::Execute()
+void Event::Execute(PriQ<Mission*>& emergency, Queue<Mission*>& polar)
 {
+	Mission* mission;
 
 	if (type == 'E')
 	{
-		Mission* mission = new Mission_Emergency(id, distance, num_days, sig);
-		//After init. the mission
-		//w need to add it in the pQ in the main file
+		mission = new Mission_Emergency(id, distance, num_days, sig, event_day);
+		emergency.insert(mission, mission->get_priority());
 	}
 	else
 	{
-		Mission* mission = new Mission_Polar(id, distance, num_days);
-		//After init. the mission
-		//w need to add it in the Q in the main file
+		mission = new Mission_Polar(id, distance, num_days, event_day);
+		polar.enqueue(mission);
 	}
 }
+
+char Event::get_type()
+{
+	return type;
+}
+
+void Event::operator = (Event n_event)
+{
+	type = n_event.type;
+	event_day = n_event.event_day;
+	id = n_event.id;
+	distance = n_event.distance;
+	num_days = n_event.num_days;
+	sig = n_event.sig;
+}
+
+

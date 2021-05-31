@@ -14,8 +14,8 @@ private:
 	void reheap_down(int idx);
 public:
 	PriQ(int c = 50);
-	bool insert(Node<T>* x);
-	Node<T>* extract_max();
+	bool insert(T x, int p);
+	T extract_max();
 };
 
 template <typename T>
@@ -70,26 +70,27 @@ void PriQ<T>::reheap_down(int idx) {
 }
 
 template <typename T>
-bool PriQ<T>::insert(Node<T>* x) {
+bool PriQ<T>::insert(T x, int p) {
 	if (size == capacity) return 0;
+	Node<T>* node = new Node<T>(x, p);
 	size++;
-	heap[size - 1] = x;
+	heap[size - 1] = node;
 	reheap_up(size - 1);
 	return 1;
 }
 
 template <typename T>
-Node<T>* PriQ<T>::extract_max() {
+T PriQ<T>::extract_max() {
 	if (size <= 0) return nullptr;
 	if (size == 1) {
 		size--;
-		return heap[0];
+		return heap[0]->getdata();
 	}
 	Node<T>* x = heap[0];
 	heap[0] = heap[size - 1];
 	size--;
 	reheap_down(0);
-	return x;
+	return x->getdata();
 }
 
 

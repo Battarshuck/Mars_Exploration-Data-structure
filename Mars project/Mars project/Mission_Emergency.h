@@ -10,8 +10,8 @@ private:
     void calculate_priority(); //utility function
 
 public:
-    Mission_Emergency(int, int, int, int);
+    Mission_Emergency(int, int, int, int, int);
     int get_sig() const;
-    int get_proprity() const;
+    int get_priority() const;
 };
 
