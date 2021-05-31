@@ -3,6 +3,16 @@
 #include "Mission_Emergency.h"
 #include "Mission_Polar.h"
 
+Event::Event()
+{
+	type = 'N';
+	event_day = -1;
+	id = -1;
+	distance = -1;
+	num_days = -1;
+	sig = -1;
+}
+
 Event::Event(char type, int event_day, int id, int distance, int num_days, int sig)
 {
 	this->type = type;

@@ -9,11 +9,11 @@ public:
 	static int ID;
 
 
-	Rover_Polar(int, int, int, int);
+	Rover_Polar(int, int, int);
 
 	void set_Speed(int);	 // sets speed for each rover
 	float get_Speed() const; // returns the actual speed
 
-	
+	Rover_Polar operator = (Rover_Polar R2);
 };
 

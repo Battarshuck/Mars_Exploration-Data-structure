@@ -1,16 +1,23 @@
 #include <iostream>
+#include "MarsStation.h"
 using namespace std;
 
 
-// nb2a n7ot el satrein dol fl mars station class aw 7aga
-#include "Rover_Polar.h"
-int Rover_Polar::ID = 0;
-#include "Rover_Emergency.h"
-int Rover_Emergency::ID = 0;
 
 int main() {
 
+	MarsStation Station;
 	
+	Station.Load(); // loads input file
+
+	cout << "Test";
+	while (true)
+	{
+		// hn3ml step 2 kolaha
+		break;
+	}
+	
+	// hn3ml step 3
 
 	return 0;
 }

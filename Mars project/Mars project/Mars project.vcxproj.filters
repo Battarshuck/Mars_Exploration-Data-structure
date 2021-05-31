@@ -19,6 +19,12 @@
     <Filter Include="Rovers">
       <UniqueIdentifier>{bd78928c-2dd4-43bf-9a1e-8e4f1b162058}</UniqueIdentifier>
     </Filter>
+    <Filter Include="User Interface">
+      <UniqueIdentifier>{f47b6bf8-9624-4f81-b400-2dd52aa615d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{81a8e409-b45b-4cc8-b3d8-c86e81c763dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -33,9 +39,6 @@
     <ClCompile Include="Mission_Polar.cpp">
       <Filter>Missions</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Missions</Filter>
-    </ClCompile>
     <ClCompile Include="Rover.cpp">
       <Filter>Rovers</Filter>
     </ClCompile>
@@ -47,6 +50,12 @@
     </ClCompile>
     <ClCompile Include="MarsStation.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +80,6 @@
     <ClInclude Include="Mission_Polar.h">
       <Filter>Missions</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Missions</Filter>
-    </ClInclude>
     <ClInclude Include="Rover.h">
       <Filter>Rovers</Filter>
     </ClInclude>
@@ -85,6 +91,12 @@
     </ClInclude>
     <ClInclude Include="MarsStation.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

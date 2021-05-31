@@ -8,9 +8,11 @@ private:
 public:
 	static int ID;
 
-	Rover_Emergency(int, int, int, int);
+	Rover_Emergency(int, int, int);
 
 	void set_Speed(int);	 // sets speed for each rover
 	float get_Speed() const; // returns the actual speed
+
+	Rover_Emergency operator = (Rover_Emergency R2);
 };
 
