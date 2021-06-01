@@ -11,7 +11,7 @@ private:
 	int formulation_day; //input file
 	int completion_day;  //formulation + waiting_days + ex_days
 	int waiting_days;    //current_day - formulation
-	int ex_days;	     //num_days of excution days + ciel((distance/velocity)/25) (distance rover thing)
+	int ex_days;	     //num_days of excution days + ciel((2*distance/velocity)/25) (distance rover thing)
 	
 public:
 	Mission(int, int, int, int);

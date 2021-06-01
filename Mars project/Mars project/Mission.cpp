@@ -58,7 +58,7 @@ void Mission::set_WaitingDays(int current_day)
 
 void Mission::set_ExDays(float velocity)
 {
-	ex_days = num_days + ceil((distance / velocity) / 25);
+	ex_days = num_days + ceil((2 * distance / velocity) / 25);
 }
 
 void Mission::set_CompletionDay()
