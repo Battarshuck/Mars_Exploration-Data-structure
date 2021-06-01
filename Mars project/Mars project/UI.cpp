@@ -18,7 +18,32 @@ UI::UI()
 
 }
 
-int UI::get_NumEvents()
+int UI::get_Num_P_Rovers() const
+{
+	return P_Rovers;
+}
+
+int UI::get_Num_E_Rovers() const
+{
+	return E_Rovers;
+}
+
+int UI::get_Checkup() const
+{
+	return Checkup;
+}
+
+int UI::get_P_Checkup_Dur() const
+{
+	return P_Checkup_Dur;
+}
+
+int UI::get_E_Checkup_Dur() const
+{
+	return E_Checkup_Dur;
+}
+
+int UI::get_NumEvents() const
 {
 	return Num_Events;
 }

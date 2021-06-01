@@ -27,8 +27,8 @@ Rover_Polar Rover_Polar::operator= (Rover_Polar R2)
 	this->set_Num_Mission(R2.get_Num_Missions());
 	this->set_Mission(R2.get_Mission());
 	int Avg_Speed = R2.get_Avg_Speed();
-	int Num_TillCheckup = R2.get_Num_TillCheckup();
+	int Checkup_Every = R2.get_Checkup_Every();
 	int Checkup_Dur = R2.get_Checkup_Dur();
 	this->set_Speed(R2.get_Speed());
-	return Rover_Polar(Avg_Speed, Num_TillCheckup, Checkup_Dur);
+	return Rover_Polar(Avg_Speed, Checkup_Every, Checkup_Dur);
 }

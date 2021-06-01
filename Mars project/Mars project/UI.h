@@ -29,13 +29,18 @@ private:
 
 	void Fill_Rovers(ifstream& fin, PriQ<Rover*>& rovers_emergency,
 		PriQ<Rover*>& rovers_polar);				// Takes empty list of rovers from Marstations
-												// and fills it with the rovers read from file
+													// and fills it with the rovers read from file
 
 public:
 	UI();
-	int get_NumEvents();
 	void Read_File(Queue<Event*>& Event_List, PriQ<Rover*>& rovers_emergency,
 		PriQ<Rover*>& rovers_polar);	// reads input from file, and calls Fill_Events and Fill_Rovers
 	
+	int get_Num_P_Rovers() const;
+	int get_Num_E_Rovers() const;
+	int get_Checkup() const;
+	int get_P_Checkup_Dur() const;
+	int get_E_Checkup_Dur() const;
+	int get_NumEvents() const;
 };
 

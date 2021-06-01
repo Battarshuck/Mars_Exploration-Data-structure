@@ -6,9 +6,9 @@ class Rover
 {
 private:
 	int Rover_ID;				// ID for each rover
-	int Num_Missions;			// number of missions done by rover
+	int Num_Missions;			// number of missions done by rover (failures are counted too)
 	const int Avg_Speed;		// average speed for each rover type
-	const int Num_TillCheckup;	// number of missions before needing a checkup
+	const int Checkup_Every;	// number of missions before needing a checkup
 	const int Checkup_Dur;		// checkup duration
 	Mission* Curr_Mission;		// the missions currently in execution
 	
@@ -25,7 +25,7 @@ public:
 	virtual int get_Num_Missions() const;
 
 	virtual int get_Avg_Speed() const;
-	virtual int get_Num_TillCheckup() const;
+	virtual int get_Checkup_Every() const;
 	virtual int get_Checkup_Dur() const;
 
 	virtual void set_Mission(Mission*);  // set/removes the mission

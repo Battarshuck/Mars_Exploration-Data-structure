@@ -26,7 +26,42 @@ int Mission::get_numDay() const
 	return num_days;
 }
 
+int Mission::get_CompletionDay() const
+{
+	return completion_day;
+}
+
+int Mission::get_FormulationDay() const
+{
+	return formulation_day;
+}
+
+int Mission::get_WaitingDays() const
+{
+	return waiting_days;
+}
+
+int Mission::get_ExDays() const
+{
+	return ex_days;
+}
+
 int Mission::get_priority() const
 {
 	return -1;
+}
+
+void Mission::set_WaitingDays(int current_day)
+{
+	waiting_days = current_day - formulation_day;
+}
+
+void Mission::set_ExDays(float velocity)
+{
+	ex_days = num_days + ceil((distance / velocity) / 25);
+}
+
+void Mission::set_CompletionDay()
+{
+	completion_day = formulation_day + waiting_days + ex_days;
 }

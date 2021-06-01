@@ -19,6 +19,10 @@ public:
 	virtual int get_distance() const;
 	virtual int get_numDay() const;
 	virtual int get_priority() const;
+	virtual int get_CompletionDay() const;
+	virtual int get_FormulationDay() const;
+	virtual int get_WaitingDays() const;
+	virtual int get_ExDays() const;
 
 	void set_CompletionDay(); // we will set it in the set_WaitingDays function
 	void set_WaitingDays(int current_day);
