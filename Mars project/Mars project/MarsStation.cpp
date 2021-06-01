@@ -1,7 +1,8 @@
 #include "MarsStation.h"
 
-int Rover_Polar::ID = 0;
-int Rover_Emergency::ID = 0;
+int Rover::ID = 0;
+//int Rover_Polar::ID = 0;
+//int Rover_Emergency::ID = 0;
 
 MarsStation::MarsStation()
 {
@@ -11,7 +12,7 @@ MarsStation::MarsStation()
 
 void MarsStation::Load()
 {	
-	UserInterface->Read_File(Event_list); // fills the queue with events
+	UserInterface->Read_File(Event_list, rovers_emergency, rovers_polar); // fills the queue with events
 }
 
 

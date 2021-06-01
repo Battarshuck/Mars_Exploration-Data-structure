@@ -13,6 +13,8 @@ private:
 	Mission* Curr_Mission;		// the missions currently in execution
 	
 public:
+	static int ID;
+
 	Rover();
 	Rover(int, int, int);
 

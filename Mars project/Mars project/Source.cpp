@@ -13,11 +13,11 @@ int main() {
 
 	cout << "Welcome To Mars Ground Station !\n";
 	cout << "Please choose mode of operation: 1-Interactive   2-Step-by-step   3-Silent\n";
-	cin >> choice;
+	//cin >> choice; // 3mltlha comment 3lshan mksl aktb kol mra 2 w adoos enter
 
 	Station.Load();			// loads input file
-	Station.simulate();		// 
-
+	Station.simulate();		// runs the simulation
+	//Station.save();		// saves the output file
 
 	//switch (choice)
 	//{

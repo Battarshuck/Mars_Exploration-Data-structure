@@ -6,7 +6,7 @@ private:
 	float Speed; // The actual speed of the rover, differs for each rover
 
 public:
-	static int ID;
+	//static int ID;
 
 	Rover_Emergency(int, int, int);
 
