@@ -17,7 +17,7 @@ public:
 	bool insert(T x, int p);
 	T extract_max();
 	T peek();
-	int getsize();
+	bool isEmpty();
 };
 
 template <typename T>
@@ -101,6 +101,6 @@ T PriQ<T>::peek() {
 }
 
 template <typename T>
-int PriQ<T>::getsize() {
-	return size;
+bool PriQ<T>::isEmpty() {
+	return size == 0;
 }

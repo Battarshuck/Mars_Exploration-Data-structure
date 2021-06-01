@@ -71,9 +71,9 @@ void MarsStation::Assign_Emergency_Mission()
 {
 	Mission* mission;
 	Rover* rover;
-	while (missions_emergency.getsize() != 0) // there are missions in the PriQ
+	while (!(missions_emergency.isEmpty())) // there are missions in the PriQ
 	{
-		if (rovers_emergency.getsize() != 0) // there are available E rovers
+		if (!(rovers_emergency.isEmpty())) // there are available E rovers
 		{
 			mission = missions_emergency.extract_max(); // returns the mission of highest priority
 			rover = rovers_emergency.extract_max();		// returns the fastest E rover
@@ -91,7 +91,7 @@ void MarsStation::Assign_Emergency_Mission()
 																	// done by rover
 
 		}
-		else if (rovers_polar.getsize() != 0) // there are avaible P rovers
+		else if (!(rovers_polar.isEmpty())) // there are avaible P rovers
 		{
 			mission = missions_emergency.extract_max(); // returns the mission of highest priority
 			rover = rovers_polar.extract_max();			// returns fastest P rover
@@ -123,7 +123,7 @@ void MarsStation::Assign_Polar_Mission()
 	Rover* rover;
 	while (missions_polar.peek(mission)) // there are missions in the Queue
 	{
-		if (rovers_polar.getsize() != 0)    // there are avaibale P rovers
+		if (!(rovers_polar.isEmpty()))    // there are avaibale P rovers
 		{
 			missions_polar.dequeue(mission);	// returns mission to be assigned
 			rover = rovers_polar.extract_max(); // returns fastest P rover
