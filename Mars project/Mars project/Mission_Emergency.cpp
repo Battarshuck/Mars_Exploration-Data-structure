@@ -19,5 +19,5 @@ int Mission_Emergency::get_priority() const
 
 void Mission_Emergency::calculate_priority()
 {
-	
+	priority = sig;
 }

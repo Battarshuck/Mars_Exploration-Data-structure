@@ -5,6 +5,7 @@ Rover::Rover() :
 {
 	Num_Missions = 0;
 	Curr_Mission = nullptr;
+	Checkup_endDay = -1;
 }
 
 Rover::Rover(int S, int CheckMissions, int CheckDur) :
@@ -14,6 +15,7 @@ Rover::Rover(int S, int CheckMissions, int CheckDur) :
 	// and has no assinged mission
 	Num_Missions = 0;  
 	Curr_Mission = nullptr;
+	Checkup_endDay = -1;
 }
 
 void Rover::set_ID(int ID)
@@ -59,6 +61,21 @@ void Rover::set_Mission(Mission* mission = nullptr)  // if no parameter is given
 Mission* Rover::get_Mission() const
 {
 	return Curr_Mission;
+}
+
+void Rover::set_Checkup_endDay(int endDay)
+{
+	Checkup_endDay = endDay;
+}
+
+int Rover::get_Checkup_endDay()
+{
+	return Checkup_endDay;
+}
+
+bool Rover::ReachCheckup() const
+{
+	return Num_Missions == Checkup_Every;
 }
 
 Rover Rover::operator= (Rover R2)

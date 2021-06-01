@@ -38,6 +38,8 @@ public:
 
 	void simulate();		// runs the simulation
 	void check_events();	// check if mission should be formulated today
+	void check_inExecution(); //checks the inExecution rovers if finished or not
+	void check_inCheckup(); //checks the rovers that are in checkup  
 
 	void Assign_Emergency_Mission();	// Assigns E missions if possible
 	void Assign_Polar_Mission();		// Assigns P missions if possible

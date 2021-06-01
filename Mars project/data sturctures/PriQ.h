@@ -97,6 +97,10 @@ T PriQ<T>::extract_max() {
 
 template <typename T>
 T PriQ<T>::peek() {
+
+	if (isEmpty())
+		return nullptr;
+
 	return heap[0]->getdata();
 }
 

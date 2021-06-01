@@ -22,7 +22,7 @@ UI* MarsStation::get_UI() const
 void MarsStation::simulate()
 {
 	
-	while (current_day != 30)
+	while (current_day != 1000)
 	{
 		if (current_day == 24)
 		{
@@ -36,6 +36,8 @@ void MarsStation::simulate()
 		check_events();
 		//2-check if in-execution missions are done, to return rovers (mostafa) [ sh8al 3l execution ]
 		// mn in execution le available aw checkup
+		check_inExecution();
+		check_inCheckup();
 
 
 		//3-Check first for emergency mission then polar to assign them to rover (hashish)
@@ -64,6 +66,68 @@ void MarsStation::check_events()
 		Event_list.dequeue(temp);					// Mission should be formulated today
 
 		temp->Execute(missions_emergency, missions_polar);  // moves the mission from EventList to WaitingList
+	}
+}
+
+void MarsStation::check_inExecution()
+{
+	Rover* temp_rover;
+	Mission* temp_mission;
+	//checking if the first rover finished its mission
+	while (!rovers_inexecution.isEmpty())
+	{
+		//cheking if it is empty, if not then check if it is the rover day to finish the mission
+		if (rovers_inexecution.isEmpty() || rovers_inexecution.peek()->get_Mission()->get_CompletionDay() != current_day)
+			return;
+
+		temp_rover = rovers_inexecution.extract_max(); //extracting the mission
+		temp_mission = temp_rover->get_Mission();    //getting the mission that it is holding
+
+		temp_rover->set_Mission(nullptr); //setting the current rover mission to nullptr
+
+		missions_completed.enqueue(temp_mission); //sending the finished mission to the completed list
+
+		if (temp_rover->ReachCheckup()) //checking if the rover reached its checkup time
+		{
+			temp_rover->set_Num_Mission(0); // setting the number of finished mission to zero again
+
+			// to get the endDay of checkup, you must add the checkup duration(constant for all rovers)
+			// plus the current day
+			temp_rover->set_Checkup_endDay(temp_rover->get_Checkup_Dur() + current_day); 
+			rovers_checkup.enqueue(temp_rover); //then adding it to the checkup list
+		}
+		else 
+		{
+			if (dynamic_cast<Rover_Emergency*>(temp_rover))
+				rovers_emergency.insert(temp_rover, temp_rover->get_Avg_Speed());
+
+			else if (dynamic_cast<Rover_Polar*>(temp_rover)) // checking again only to make sure it isn't nullptr
+				rovers_polar.insert(temp_rover, temp_rover->get_Avg_Speed());
+		}
+
+	}
+}
+
+void MarsStation::check_inCheckup()
+{
+	Rover* temp_rover;
+	while (rovers_checkup.peek(temp_rover)) //peek also checks if it is empty or not
+	{
+		// checking if it is not the first rover's day
+		// as they all have the same duration
+		// if it is not the day of the first, therefore it is not the day of the second either
+		if (temp_rover->get_Checkup_endDay() != current_day)
+			return;
+
+		rovers_checkup.dequeue(temp_rover);
+		temp_rover->set_Checkup_endDay(-1);
+
+		if (dynamic_cast<Rover_Emergency*>(temp_rover))
+			rovers_emergency.insert(temp_rover, temp_rover->get_Avg_Speed());
+
+		else if(dynamic_cast<Rover_Polar*>(temp_rover)) // checking again only to make sure it isn't nullptr
+			rovers_polar.insert(temp_rover, temp_rover->get_Avg_Speed());
+
 	}
 }
 

@@ -7,6 +7,7 @@ class Rover
 private:
 	int Rover_ID;				// ID for each rover
 	int Num_Missions;			// number of missions done by rover (failures are counted too)
+	int Checkup_endDay;			// the day the rover will finish checkup
 	const int Avg_Speed;		// average speed for each rover type
 	const int Checkup_Every;	// number of missions before needing a checkup
 	const int Checkup_Dur;		// checkup duration
@@ -30,6 +31,11 @@ public:
 
 	virtual void set_Mission(Mission*);  // set/removes the mission
 	virtual Mission* get_Mission() const;
+
+	virtual void set_Checkup_endDay(int);
+	virtual int get_Checkup_endDay();
+
+	bool ReachCheckup() const;
 	
 
 	Rover operator = (Rover R2);
