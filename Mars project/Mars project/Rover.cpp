@@ -75,7 +75,7 @@ int Rover::get_Checkup_endDay()
 
 bool Rover::ReachCheckup() const
 {
-	return Num_Missions == Checkup_Every;
+	return (Num_Missions != 0 && Num_Missions % Checkup_Every == 0);
 }
 
 Rover Rover::operator= (Rover R2)

@@ -24,7 +24,8 @@ private:
 	PriQ<Rover*> rovers_emergency;      // available rovers sorted according to speed
 	PriQ<Rover*> rovers_polar;          // available rovers sorted according to speed
 	PriQ<Rover*> rovers_inexecution;    // sorted according to completion day
-	Queue<Rover*> rovers_checkup;       // checkup queue for rovers
+	Queue<Rover*> rovers_polar_checkup;       // checkup queue for Polar rovers
+	Queue<Rover*> rovers_emergency_checkup;   // checkup queue for Emergency rovers
 
 	UI* UserInterface;				    // pointer to user interface
 

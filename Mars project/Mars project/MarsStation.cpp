@@ -89,12 +89,16 @@ void MarsStation::check_inExecution()
 
 		if (temp_rover->ReachCheckup()) //checking if the rover reached its checkup time
 		{
-			temp_rover->set_Num_Mission(0); // setting the number of finished mission to zero again
-
 			// to get the endDay of checkup, you must add the checkup duration(constant for all rovers)
 			// plus the current day
 			temp_rover->set_Checkup_endDay(temp_rover->get_Checkup_Dur() + current_day); 
-			rovers_checkup.enqueue(temp_rover); //then adding it to the checkup list
+
+			if (dynamic_cast<Rover_Emergency*>(temp_rover))
+				rovers_emergency_checkup.enqueue(temp_rover);
+
+			else if (dynamic_cast<Rover_Polar*>(temp_rover)) // checking again only to make sure it isn't nullptr
+				rovers_polar_checkup.enqueue(temp_rover);
+
 		}
 		else 
 		{
@@ -111,22 +115,33 @@ void MarsStation::check_inExecution()
 void MarsStation::check_inCheckup()
 {
 	Rover* temp_rover;
-	while (rovers_checkup.peek(temp_rover)) //peek also checks if it is empty or not
+	while (rovers_emergency_checkup.peek(temp_rover)) //peek also checks if it is empty or not
 	{
 		// checking if it is not the first rover's day
-		// as they all have the same duration
+		// as they all emergency rovers have the same duration
 		// if it is not the day of the first, therefore it is not the day of the second either
 		if (temp_rover->get_Checkup_endDay() != current_day)
 			return;
 
-		rovers_checkup.dequeue(temp_rover);
+		rovers_emergency_checkup.dequeue(temp_rover);
 		temp_rover->set_Checkup_endDay(-1);
 
-		if (dynamic_cast<Rover_Emergency*>(temp_rover))
-			rovers_emergency.insert(temp_rover, temp_rover->get_Avg_Speed());
+		rovers_emergency.insert(temp_rover, ((Rover_Emergency*)temp_rover)->get_Speed());
 
-		else if(dynamic_cast<Rover_Polar*>(temp_rover)) // checking again only to make sure it isn't nullptr
-			rovers_polar.insert(temp_rover, temp_rover->get_Avg_Speed());
+	}
+
+	while (rovers_polar_checkup.peek(temp_rover)) //peek also checks if it is empty or not
+	{
+		// checking if it is not the first rover's day
+		// as they all polar rovers have the same duration
+		// if it is not the day of the first, therefore it is not the day of the second either
+		if (temp_rover->get_Checkup_endDay() != current_day)
+			return;
+
+		rovers_polar_checkup.dequeue(temp_rover);
+		temp_rover->set_Checkup_endDay(-1);
+
+		rovers_polar.insert(temp_rover, ((Rover_Polar*)temp_rover)->get_Speed());
 
 	}
 }
