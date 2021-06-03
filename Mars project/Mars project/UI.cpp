@@ -15,7 +15,15 @@
 
 UI::UI()
 {
+}
 
+
+UI::~UI() 
+{
+}
+
+void UI::bye() {
+	cout << "GooooooodByyyeeeeeee :D" << endl;
 }
 
 int UI::get_Num_P_Rovers() const
@@ -53,6 +61,7 @@ void UI::Read_File(Queue<Event*>& Event_List, PriQ<Rover*>& rovers_emergency, Pr
 	string filename;
 	cout << "Enter file name to be loaded: ";
 	cin >> filename;
+	cout << endl;
 	filename += ".txt"; // adds .txt extension to filename
 
 	ifstream fin (filename); // opens file to read from
@@ -108,5 +117,25 @@ void UI::Fill_Rovers(ifstream& fin, PriQ<Rover*>& rovers_emergency,
 		rover = new Rover_Emergency(Avg_E_Speed, Checkup, E_Checkup_Dur);		// creates the rover
 		rovers_emergency.insert(rover, ((Rover_Emergency*)rover)->get_Speed()); // places it in the list, sorted
 																				// descendingly according to speed
+	}
+}
+
+void UI::getMode() {
+	cout << "Welcome To Mars Ground Station !\n";
+	cout << "Please choose mode of operation: 1-Interactive   2-Step-by-step   3-Silent\n";
+	cin >> mode;
+}
+
+void UI::Print(string line1, string line2, string line3, string line4, string line5, string line6)const {
+	if (mode == 1) {
+		cin.ignore();
+		string x = "\n-------------------------------------------------------\n";
+		cout << line1 << endl << line2 << x << line3 << x << line4 << x << line5 << x << line6 << endl << endl;
+		
+	}
+	if (mode == 2) {
+		string x = "\n-------------------------------------------------------\n";
+		cout << line1 << endl << line2 << x << line3 << x << line4 << x << line5 << x << line6 << endl << endl;
+		Sleep(1000);
 	}
 }

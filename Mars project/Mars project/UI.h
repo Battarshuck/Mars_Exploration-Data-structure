@@ -1,5 +1,5 @@
 #pragma once
-
+#include <windows.h>
 #include "Event.h"
 #include "Rover.h"
 #include "Rover_Emergency.h"
@@ -23,6 +23,7 @@ private:
 	int P_Checkup_Dur;	  // checkup duration for polar rovers
 	int E_Checkup_Dur;	  // checkup duration for emergency rovers
 	int Num_Events;		  // number of events
+	int mode;
 
 	void Fill_Events(ifstream& fin, Queue<Event*>& Event_List);  // Takes empty list of events from MarsStation
 																 // and fills it with the events read from file
@@ -42,5 +43,9 @@ public:
 	int get_P_Checkup_Dur() const;
 	int get_E_Checkup_Dur() const;
 	int get_NumEvents() const;
+	void Print(string,string,string,string,string,string) const;
+	void getMode();
+	void bye();
+	~UI();
 };
 

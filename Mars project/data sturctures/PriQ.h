@@ -14,10 +14,12 @@ private:
 	void reheap_down(int idx);
 public:
 	PriQ(int c = 50);
+	PriQ(const  PriQ<T>& Copy);
 	bool insert(T x, int p);
 	T extract_max();
 	T peek();
 	bool isEmpty();
+	int getSize();
 };
 
 template <typename T>
@@ -25,6 +27,20 @@ PriQ<T>::PriQ(int c) {
 	size = 0;
 	capacity = c;
 	heap = new Node<T> * [c];
+}
+
+template <typename T>
+PriQ<T>::PriQ(const  PriQ<T>& Copy) {
+	size = Copy.size;
+	capacity = Copy.capacity;
+	heap = new Node<T> * [capacity];
+	for (int i = 0;i < size;i++) {
+		Node<T>** temp = Copy.heap;
+		T data = (temp[i])->getdata();
+		int pri = (temp[i])->getpriority();
+		Node<T>* node = new Node<T>(data, pri);
+		heap[i] = node;
+	}
 }
 
 template <typename T>
@@ -107,4 +123,9 @@ T PriQ<T>::peek() {
 template <typename T>
 bool PriQ<T>::isEmpty() {
 	return size == 0;
+}
+
+template <typename T>
+int PriQ<T>::getSize() {
+	return size;
 }

@@ -6,11 +6,14 @@ MarsStation::MarsStation()
 {
 	UserInterface = new UI();
 	current_day = 0;
+	num_events = 0;
 }
 
 void MarsStation::Load()
 {	
+	UserInterface->getMode();
 	UserInterface->Read_File(Event_list, rovers_emergency, rovers_polar); // fills the queue with events
+	num_events = Event_list.getSize();
 }
 
 
@@ -21,16 +24,8 @@ UI* MarsStation::get_UI() const
 
 void MarsStation::simulate()
 {
-	
-	while (current_day != 1000)
+	while (num_events != missions_completed.getSize())
 	{
-		if (current_day == 24)
-		{
-			if (current_day == 24)
-			{
-
-			}
-		}
 		current_day++;
 		//1-Events to be formulated [a]
 		check_events();
@@ -49,10 +44,13 @@ void MarsStation::simulate()
 		
 	
 		//5-printing in the UI class (farah) [e,f]
-
+		OutputGenerator();
 	}
+	UserInterface->bye();
 	// UI.save
 }
+
+
 
 void MarsStation::check_events()
 {
@@ -225,4 +223,146 @@ void MarsStation::Assign_Polar_Mission()
 			return;
 		}
 	}
+}
+
+/* String-generating functions */
+string  MarsStation::generateString_missionP(PriQ<Mission*> x) {
+	string output = "";
+	PriQ<Mission*> temp = x;
+	output += "[";
+	int size = temp.getSize();
+	if (size == 0) return "";
+	for (int i = 0;i < size;i++) {
+		Mission* curr = temp.extract_max();
+		output += to_string(curr->get_id());
+		if (i == size - 1) continue;
+		output += ",";
+	}
+	output += "]";
+	return output;
+}
+
+string  MarsStation::generateString_missionQ(Queue<Mission*> x) {
+	string output1 = "";
+	string output2 = "";
+	Queue<Mission*> temp = x;
+	output1 += "[";
+	output2 += "(";
+	int size = temp.getSize();
+	if (size == 0) return "";
+	for (int i = 0;i < size;i++) {
+		Mission* curr;
+		temp.dequeue(curr);
+		if (dynamic_cast<Mission_Emergency*>(curr)) {
+			output1 += to_string(curr->get_id())+",";
+		}
+		else if (dynamic_cast<Mission_Polar*>(curr)) {
+			output2 += to_string(curr->get_id())+ ",";
+		}
+	}
+	if (output1 == "[") output1 = "";
+	if (output2 == "(") output2 = "";
+	if (output1 != "") output1.pop_back(), output1 += "]";
+	if (output2 != "") output2.pop_back(), output2 += ")";
+	return output1 + " " + output2;
+}
+
+
+string  MarsStation::generateString_roverQ(Queue<Rover*> x) {
+	string output1 = "";
+	string output2 = "";
+	Queue<Rover*> temp = x;
+	output1 += "[";
+	output2 += "(";
+	int size = temp.getSize();
+	for (int i = 0;i < size;i++) {
+		Rover* curr;
+		temp.dequeue(curr);
+		if (dynamic_cast<Rover_Emergency*>(curr)) {
+			output1 += to_string(curr->get_ID()) + ",";
+		}
+		else if (dynamic_cast<Rover_Polar*>(curr)) {
+			output2 += to_string(curr->get_ID()) + ",";
+		}
+	}
+	if (output1 == "[") output1 = "";
+	if (output2 == "(") output2 = "";
+	if (output1 != "") output1.pop_back(), output1 += "]";
+	if (output2 != "") output2.pop_back(), output2 += ")";
+	return output1 + " " + output2;
+}
+
+string  MarsStation::generateString_rover_inExc(PriQ<Rover*> x) {
+	string output1 = "";
+	string output2 = "";
+	PriQ<Rover*> temp = x;
+	output1 += "[";
+	output2 += "(";
+	int size = temp.getSize();
+	if (size == 0) return "";
+	for (int i = 0;i < size;i++) {
+		Rover* curr;
+		curr = temp.extract_max();
+		if (dynamic_cast<Rover_Emergency*>(curr)) {
+			Mission* hold;
+			hold = curr->get_Mission();
+			output1 += to_string(hold->get_id()) + "/";
+			output1 += to_string(curr->get_ID()) + ", ";
+		}
+		else if (dynamic_cast<Rover_Polar*>(curr)) {
+			Mission* hold;
+			hold = curr->get_Mission();
+			output2 += to_string(hold->get_id()) + "/";
+			output2 += to_string(curr->get_ID()) + ", ";
+		}
+	}
+	if (output1 == "[") output1 = "";
+	if (output2 == "(") output2 = "";
+	if (output1 != "") output1.pop_back(), output1.pop_back(), output1 += "]";
+	if (output2 != "") output2.pop_back(), output2.pop_back(), output2 += ")";
+	return output1 + " " + output2;
+}
+
+string  MarsStation::generateString_rover_avail(PriQ<Rover*> x) {
+	string output1 = "";
+	string output2 = "";
+	PriQ<Rover*> temp = x;
+	output1 += "[";
+	output2 += "(";
+	int size = temp.getSize();
+	if (size == 0) return "";
+	for (int i = 0;i < size;i++) {
+		Rover* curr;
+		curr = temp.extract_max();
+		if (dynamic_cast<Rover_Emergency*>(curr)) {
+			output1 += to_string(curr->get_ID()) + ", ";
+		}
+		else if (dynamic_cast<Rover_Polar*>(curr)) {
+			output2 += to_string(curr->get_ID()) + ", ";
+		}
+	}
+	if (output1 == "[") output1 = "";
+	if (output2 == "(") output2 = "";
+	if (output1 != "") output1.pop_back(), output1.pop_back(), output1 += "]";
+	if (output2 != "") output2.pop_back(), output2.pop_back(), output2 += ")";
+	return output1 + " " + output2;
+}
+
+
+void MarsStation::OutputGenerator()
+{
+	string line1, line2, line3, line4, line5, line6;
+	line1 = "Current Day:" + to_string(current_day);
+	int wait_mission = missions_emergency.getSize() + missions_polar.getSize();
+	int in_exec = rovers_inexecution.getSize();
+	int available_rover = rovers_emergency.getSize() + rovers_polar.getSize();
+	int in_checkup = rovers_polar_checkup.getSize() + rovers_emergency_checkup.getSize();
+	int complete = missions_completed.getSize();
+
+	line2 = to_string(wait_mission) + " Waiting Missions: " + generateString_missionP(missions_emergency) + " " + generateString_missionQ(missions_polar);
+	line3 = to_string(in_exec) + " In-Execution Missions/Rovers: " + generateString_rover_inExc(rovers_inexecution);
+	line4 = to_string(available_rover) + " Available Rovers: " + generateString_rover_avail(rovers_polar) + " " + generateString_rover_avail(rovers_emergency);
+	line5 = to_string(in_checkup) + " In-Checkup Rovers: " + generateString_roverQ(rovers_emergency_checkup) + " " + generateString_roverQ(rovers_polar_checkup);
+	line6 = to_string(complete) + " Completed Missions: " + generateString_missionQ(missions_completed);
+	UserInterface->Print(line1, line2, line3, line4, line5, line6);
 }

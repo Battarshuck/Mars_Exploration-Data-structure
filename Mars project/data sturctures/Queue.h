@@ -13,6 +13,7 @@ public:
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
+	int getSize();
 	//void print() const;
 	~Queue();
 
@@ -112,4 +113,16 @@ bool Queue<T>::peek(T& frntEntry) const
 	frntEntry = frontPtr->getItem();
 	return true;
 
+}
+
+template <typename T>
+int Queue<T>::getSize() 
+{
+	Node2<T>* Node2Ptr = frontPtr;
+	int s(0);
+	while (Node2Ptr) {
+		s++;
+		Node2Ptr = Node2Ptr->getNext();
+	}
+	return s;
 }

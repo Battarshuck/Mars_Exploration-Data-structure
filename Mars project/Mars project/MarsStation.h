@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "../data sturctures/PriQ.h"
 #include "../data sturctures/Queue.h"
 #include "Mission.h"
@@ -30,6 +31,7 @@ private:
 	UI* UserInterface;				    // pointer to user interface
 
 	int current_day;
+	int num_events;
 public:
 	MarsStation();
 
@@ -44,6 +46,15 @@ public:
 
 	void Assign_Emergency_Mission();	// Assigns E missions if possible
 	void Assign_Polar_Mission();		// Assigns P missions if possible
+
+
+	/* string-generating functions */
+	void OutputGenerator();
+	string generateString_roverQ(Queue<Rover*>);
+	string generateString_rover_inExc(PriQ<Rover*>);
+	string generateString_rover_avail(PriQ<Rover*>);
+	string generateString_missionQ(Queue<Mission*>);
+	string generateString_missionP(PriQ<Mission*>);
 
 };
 
