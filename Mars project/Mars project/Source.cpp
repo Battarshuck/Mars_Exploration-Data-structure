@@ -18,36 +18,6 @@ int main() {
 	Station.simulate();		// runs the simulation
 	//Station.save();		// saves the output file
 
-	//switch (choice)
-	//{
-	//case 1:
-	//	while (true)
-	//	{
-	//		// hn3ml step 2 kolaha
-	//		break;
-	//	}
-	//	// hn3ml step 3
-
-	//	break;
-	//case 2:
-	//	Station.simulate();
-	//	//bool x = true;
-	//	//while (x)
-	//	//{
-	//		//station.simulate(x);
-	//	//}
-	//	// hn3ml step 3
-
-	//	break;
-	//case 3:
-
-	//	break;
-
-	//default:
-
-	//	break;
-	//}
-
 	
 
 	return 0;

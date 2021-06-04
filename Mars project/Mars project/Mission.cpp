@@ -65,3 +65,8 @@ void Mission::set_CompletionDay()
 {
 	completion_day = formulation_day + waiting_days + ex_days;
 }
+
+void Mission::set_FormulationDay(int current_day)
+{
+	formulation_day = current_day;
+}

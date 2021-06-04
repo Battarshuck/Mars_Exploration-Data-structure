@@ -11,6 +11,7 @@ private:
 	const int Avg_Speed;		// average speed for each rover type
 	const int Checkup_Every;	// number of missions before needing a checkup
 	const int Checkup_Dur;		// checkup duration
+	int Num_Till_Checkup;		// number of missions left till checkup is required
 	Mission* Curr_Mission;		// the missions currently in execution
 	
 public:
@@ -33,7 +34,10 @@ public:
 	virtual Mission* get_Mission() const;
 
 	virtual void set_Checkup_endDay(int);
-	virtual int get_Checkup_endDay();
+	virtual int get_Checkup_endDay() const;
+
+	virtual void set_Num_Till_Checkup(int);
+	virtual int get_Num_Till_Checkup() const;
 
 	bool ReachCheckup() const;
 	

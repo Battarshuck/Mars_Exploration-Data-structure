@@ -1,18 +1,5 @@
 #include "UI.h"
 
-//UI::UI(int P_Num, int E_num, int P_Speed, int E_Speed,
-//	int Check_Num, int P_Check_Time, int E_Check_Time, int N)
-//{
-//	P_Rovers = P_Num;
-//	E_Rovers = E_num;
-//	Avg_P_Speed = P_Speed;
-//	Avg_E_Speed = E_Speed;
-//	Checkup = Check_Num;
-//	P_Checkup_Dur = P_Check_Time;
-//	E_Checkup_Dur = E_Check_Time;
-//	Num_Events = N;
-//}
-
 UI::UI()
 {
 }

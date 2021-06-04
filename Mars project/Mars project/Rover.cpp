@@ -6,6 +6,7 @@ Rover::Rover() :
 	Num_Missions = 0;
 	Curr_Mission = nullptr;
 	Checkup_endDay = -1;
+	Num_Till_Checkup = Checkup_Every;
 }
 
 Rover::Rover(int S, int CheckMissions, int CheckDur) :
@@ -16,6 +17,7 @@ Rover::Rover(int S, int CheckMissions, int CheckDur) :
 	Num_Missions = 0;  
 	Curr_Mission = nullptr;
 	Checkup_endDay = -1;
+	Num_Till_Checkup = Checkup_Every;
 }
 
 void Rover::set_ID(int ID)
@@ -68,14 +70,24 @@ void Rover::set_Checkup_endDay(int endDay)
 	Checkup_endDay = endDay;
 }
 
-int Rover::get_Checkup_endDay()
+int Rover::get_Checkup_endDay() const
 {
 	return Checkup_endDay;
 }
 
+void Rover::set_Num_Till_Checkup(int x)
+{
+	Num_Till_Checkup = x;
+}
+
+int Rover::get_Num_Till_Checkup() const
+{
+	return Num_Till_Checkup;
+}
+
 bool Rover::ReachCheckup() const
 {
-	return (Num_Missions != 0 && Num_Missions % Checkup_Every == 0);
+	return Num_Till_Checkup == 0;
 }
 
 Rover Rover::operator= (Rover R2)

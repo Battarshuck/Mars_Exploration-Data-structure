@@ -24,6 +24,7 @@ public:
 	virtual int get_WaitingDays() const;
 	virtual int get_ExDays() const;
 
+	void set_FormulationDay(int current_day);
 	void set_CompletionDay(); // we will set it in the set_WaitingDays function
 	void set_WaitingDays(int current_day);
 	void set_ExDays(float velocity);

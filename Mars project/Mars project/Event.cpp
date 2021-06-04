@@ -31,7 +31,7 @@ void Event::Execute(PriQ<Mission*>& emergency, Queue<Mission*>& polar)
 	if (type == 'E')
 	{
 		mission = new Mission_Emergency(id, distance, num_days, sig, event_day);
-		emergency.insert(mission, mission->get_priority());
+		emergency.insert(mission, ((Mission_Emergency*)mission)->get_priority());
 	}
 	else
 	{

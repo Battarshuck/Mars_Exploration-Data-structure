@@ -13,7 +13,7 @@ private:
 	void reheap_up(int idx);
 	void reheap_down(int idx);
 public:
-	PriQ(int c = 50);
+	PriQ(int c = 110);
 	PriQ(const  PriQ<T>& Copy);
 	bool insert(T x, int p);
 	T extract_max();

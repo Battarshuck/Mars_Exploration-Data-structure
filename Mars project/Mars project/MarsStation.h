@@ -32,21 +32,22 @@ private:
 
 	int current_day;
 	int num_events;
+	int Failure_Percentage;
+	int Failed_Missions;
 public:
 	MarsStation();
 
 	void Load();  // Loads the file to get input
 
-	UI* get_UI() const;
-
-	void simulate();		// runs the simulation
-	void check_events();	// check if mission should be formulated today
-	void check_inExecution(); //checks the inExecution rovers if finished or not
-	void check_inCheckup(); //checks the rovers that are in checkup  
+	void simulate();			// runs the simulation
+	void check_events();		// check if mission should be formulated today
+	void check_inExecution();	//checks the inExecution rovers if finished or not
+	void check_inCheckup();		//checks the rovers that are in checkup  
 
 	void Assign_Emergency_Mission();	// Assigns E missions if possible
 	void Assign_Polar_Mission();		// Assigns P missions if possible
 
+	bool If_Failed();
 
 	/* string-generating functions */
 	void OutputGenerator();

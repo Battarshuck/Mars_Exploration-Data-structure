@@ -1,14 +1,17 @@
 #include "MarsStation.h"
-
-int Rover::ID = 0;
+#include <time.h>
 
 MarsStation::MarsStation()
 {
 	UserInterface = new UI();
 	current_day = 0;
 	num_events = 0;
+	Failure_Percentage = 10;
+	Failed_Missions = 0;
+	srand(time(NULL)); // changes the seed for rand()
 }
 
+int Rover::ID = 0;
 void MarsStation::Load()
 {	
 	UserInterface->getMode();
@@ -16,10 +19,11 @@ void MarsStation::Load()
 	num_events = Event_list.getSize();
 }
 
-
-UI* MarsStation::get_UI() const
+bool MarsStation::If_Failed()
 {
-	return UserInterface;
+	
+	int percentage = rand() % 101;		// generates a random number between 0 and 100
+	return (percentage < Failure_Percentage);
 }
 
 void MarsStation::simulate()
@@ -29,6 +33,7 @@ void MarsStation::simulate()
 		current_day++;
 		//1-Events to be formulated [a]
 		check_events();
+
 		//2-check if in-execution missions are done, to return rovers (mostafa) [ sh8al 3l execution ]
 		// mn in execution le available aw checkup
 		check_inExecution();
@@ -67,6 +72,9 @@ void MarsStation::check_events()
 	}
 }
 
+
+// Moves in execution missions to completed list
+// Moves rover to available or checkup list
 void MarsStation::check_inExecution()
 {
 	Rover* temp_rover;
@@ -78,17 +86,44 @@ void MarsStation::check_inExecution()
 		if (rovers_inexecution.isEmpty() || rovers_inexecution.peek()->get_Mission()->get_CompletionDay() != current_day)
 			return;
 
-		temp_rover = rovers_inexecution.extract_max(); //extracting the mission
-		temp_mission = temp_rover->get_Mission();    //getting the mission that it is holding
+		temp_rover = rovers_inexecution.extract_max();	//extracting the mission
+		temp_mission = temp_rover->get_Mission();		//getting the mission that it is holding
 
-		temp_rover->set_Mission(nullptr); //setting the current rover mission to nullptr
+		temp_rover->set_Mission(nullptr);				//setting the current rover mission to nullptr
 
-		missions_completed.enqueue(temp_mission); //sending the finished mission to the completed list
-
-		if (temp_rover->ReachCheckup()) //checking if the rover reached its checkup time
+		
+		// lw kda, hazawed el failure hena el awl
+		if (If_Failed()) // mission failed
 		{
-			// to get the endDay of checkup, you must add the checkup duration(constant for all rovers)
-			// plus the current day
+			Failed_Missions++;
+			temp_mission->set_FormulationDay(current_day);	// sets new formulation day
+
+			// moves mission to waiting list again
+			if (dynamic_cast<Mission_Emergency*>(temp_mission))		// emergency mission
+			{
+				missions_emergency.insert(temp_mission, ((Mission_Emergency*)temp_mission)->get_priority());
+			}
+			else if (dynamic_cast<Mission_Polar*>(temp_mission))	// polar mission
+			{
+				missions_polar.enqueue(temp_mission);
+			}
+
+			temp_rover->set_Num_Till_Checkup(0);	// rover needs checkup
+
+
+		}
+		else // mission succeeded
+		{
+			missions_completed.enqueue(temp_mission);	//sending the finished mission to the completed list
+
+		}
+
+
+		// moves rover to checkup if needed
+		if (temp_rover->ReachCheckup())			//checking if the rover reached its checkup time
+		{
+			// to get the endDay of checkup, you must add the checkup duration(constant for all
+			// rovers of the same type) plus the current day
 			temp_rover->set_Checkup_endDay(temp_rover->get_Checkup_Dur() + current_day); 
 
 			if (dynamic_cast<Rover_Emergency*>(temp_rover))
@@ -98,25 +133,26 @@ void MarsStation::check_inExecution()
 				rovers_polar_checkup.enqueue(temp_rover);
 
 		}
-		else 
+		else // doesn't require checkup, so we return it to available list
 		{
 			if (dynamic_cast<Rover_Emergency*>(temp_rover))
-				rovers_emergency.insert(temp_rover, temp_rover->get_Avg_Speed());
+				rovers_emergency.insert(temp_rover, ((Rover_Emergency*)temp_rover)->get_Speed());
 
 			else if (dynamic_cast<Rover_Polar*>(temp_rover)) // checking again only to make sure it isn't nullptr
-				rovers_polar.insert(temp_rover, temp_rover->get_Avg_Speed());
+				rovers_polar.insert(temp_rover, ((Rover_Polar*)temp_rover)->get_Speed());
 		}
 
 	}
 }
 
+// moves rovers from checkup to available
 void MarsStation::check_inCheckup()
 {
 	Rover* temp_rover;
 	while (rovers_emergency_checkup.peek(temp_rover)) //peek also checks if it is empty or not
 	{
 		// checking if it is not the first rover's day
-		// as they all emergency rovers have the same duration
+		// as all emergency rovers have the same duration
 		// if it is not the day of the first, therefore it is not the day of the second either
 		if (temp_rover->get_Checkup_endDay() != current_day)
 			return;
@@ -125,13 +161,14 @@ void MarsStation::check_inCheckup()
 		temp_rover->set_Checkup_endDay(-1);
 
 		rovers_emergency.insert(temp_rover, ((Rover_Emergency*)temp_rover)->get_Speed());
+		// return it to available list
 
 	}
 
 	while (rovers_polar_checkup.peek(temp_rover)) //peek also checks if it is empty or not
 	{
 		// checking if it is not the first rover's day
-		// as they all polar rovers have the same duration
+		// as all polar rovers have the same duration
 		// if it is not the day of the first, therefore it is not the day of the second either
 		if (temp_rover->get_Checkup_endDay() != current_day)
 			return;
@@ -140,21 +177,23 @@ void MarsStation::check_inCheckup()
 		temp_rover->set_Checkup_endDay(-1);
 
 		rovers_polar.insert(temp_rover, ((Rover_Polar*)temp_rover)->get_Speed());
+		// return it to available list
 
 	}
 }
 
+// assigns missions and moves rovers from available to in execution
 void MarsStation::Assign_Emergency_Mission()
 {
 	Mission* mission;
 	Rover* rover;
 	while (!(missions_emergency.isEmpty())) // there are missions in the PriQ
 	{
-		if (!(rovers_emergency.isEmpty())) // there are available E rovers
+		if (!(rovers_emergency.isEmpty()))  // there are available E rovers
 		{
 			mission = missions_emergency.extract_max(); // returns the mission of highest priority
 			rover = rovers_emergency.extract_max();		// returns the fastest E rover
-			rover->set_Mission(mission); // assigns mission to E rover
+			rover->set_Mission(mission);				// assigns mission to E rover
 
 			mission->set_WaitingDays(current_day);		// sets mission waiting days
 			mission->set_ExDays(((Rover_Emergency*)rover)->get_Speed()); // sets mission execution day
@@ -164,8 +203,10 @@ void MarsStation::Assign_Emergency_Mission()
 			// moves rover from available to inexecution list
 			// the -ve sign is added to be sorted ascendingly according to completion day
 
-			rover->set_Num_Mission(rover->get_Num_Missions() + 1);  // increases number of missions
-																	// done by rover
+			rover->set_Num_Mission(rover->get_Num_Missions() + 1);			// increases number of missions
+																			// done by rover
+			rover->set_Num_Till_Checkup(rover->get_Num_Till_Checkup() - 1); // reduces number of missions left
+																			// till required checkup
 
 		}
 		else if (!(rovers_polar.isEmpty())) // there are avaible P rovers
@@ -183,8 +224,10 @@ void MarsStation::Assign_Emergency_Mission()
 			// moves rover from available to inexecution list
 			// the -ve sign is added to be sorted ascendingly according to completion day
 
-			rover->set_Num_Mission(rover->get_Num_Missions() + 1);  // increases number of missions
-																	// done by rover
+			rover->set_Num_Mission(rover->get_Num_Missions() + 1);			// increases number of missions
+																			// done by rover
+			rover->set_Num_Till_Checkup(rover->get_Num_Till_Checkup() - 1); // reduces number of missions left
+																			// till required checkup
 		}
 		else  // no available rovers
 		{
@@ -215,8 +258,10 @@ void MarsStation::Assign_Polar_Mission()
 			// moves rover from available to inexecution list
 			// the -ve sign is added to be sorted ascendingly according to completion day
 
-			rover->set_Num_Mission(rover->get_Num_Missions() + 1);  // increases number of missions
-																	// done by rover
+			rover->set_Num_Mission(rover->get_Num_Missions() + 1);			// increases number of missions
+																			// done by rover
+			rover->set_Num_Till_Checkup(rover->get_Num_Till_Checkup() - 1); // reduces number of missions left
+																			// till required checkup
 		}
 		else  // no available rovers
 		{
