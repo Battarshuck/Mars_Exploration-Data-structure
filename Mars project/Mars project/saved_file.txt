@@ -1,0 +1,12 @@
+CD	ID	FD	WD	ED
+
+7	2	1	0	6
+7	1	1	0	6
+8	4	3	0	5
+8	3	2	0	6
+30	5	20	0	10
+35	6	20	0	15
+
+Missions: 6 [P: 1, E: 5]
+Rovers: 6 [P: 6, E: 0]
+Avg. Wait= 0, Avg. Exec= 8

@@ -1,0 +1,14 @@
+﻿  MarsStation.cpp
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(11,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(152,82): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(155,74): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(176,80): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(192,72): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(473,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(474,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\MarsStation.cpp(458,9): warning C4101: 'y': unreferenced local variable
+  UI.cpp
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\UI.cpp(97,62): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\Mars project\UI.cpp(105,70): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+  Mars project.vcxproj -> D:\Farah\COLLEGE\data structures\Project\Mars_Exploration-Data-structure\Mars project\x64\Debug\Mars project.exe

@@ -13,7 +13,7 @@ private:
 	void reheap_up(int idx);
 	void reheap_down(int idx);
 public:
-	PriQ(int c = 110);
+	PriQ(int c = 200);
 	PriQ(const  PriQ<T>& Copy);
 	bool insert(T x, int p);
 	T extract_max();
@@ -60,7 +60,7 @@ int PriQ<T>::right(int i) {
 
 template <typename T>
 void PriQ<T>::reheap_up(int idx) {
-	while (idx > 0 && heap[parent(idx)]->getpriority() < heap[idx]->getpriority()) {
+	while (idx > 0 && heap[parent(idx)]->getpriority() <= heap[idx]->getpriority()) {
 		Node<T>* temp = heap[parent(idx)];
 		heap[parent(idx)] = heap[idx];
 		heap[idx] = temp;
@@ -73,10 +73,10 @@ void PriQ<T>::reheap_down(int idx) {
 	int max = idx;
 	int l = left(idx);
 	int r = right(idx);
-	if (l<size && heap[l]->getpriority() > heap[max]->getpriority()) {
+	if (l<size && heap[l]->getpriority() >= heap[max]->getpriority()) {
 		max = l;
 	}
-	if (r<size && heap[r]->getpriority() > heap[max]->getpriority()) {
+	if (r<size && heap[r]->getpriority() >= heap[max]->getpriority()) {
 		max = r;
 	}
 	if (idx != max) {

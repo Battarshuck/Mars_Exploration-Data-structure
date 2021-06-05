@@ -46,11 +46,24 @@ void MarsStation::simulate()
 		Assign_Emergency_Mission();
 		Assign_Polar_Mission();
 
-		
 	
 		//5-printing in the UI class (farah) [e,f]
 		OutputGenerator();
 	}
+	
+	/*
+	Sending check-up rovers back to the original PriQ
+	*/
+
+	Rover* temp;
+	while (rovers_polar_checkup.dequeue(temp)) rovers_polar.insert(temp,0);
+	while (rovers_emergency_checkup.dequeue(temp)) rovers_emergency.insert(temp,0);
+
+	/*
+	* Calling The Save File Generator
+	*/
+
+	SaveFileGenerator();
 	UserInterface->bye();
 	// UI.save
 }
@@ -291,23 +304,27 @@ string  MarsStation::generateString_missionQ(Queue<Mission*> x) {
 	string output1 = "";
 	string output2 = "";
 	Queue<Mission*> temp = x;
+	/*
+	Output 1 for Emergency Missions
+	Output 2 for Polar Missions
+	*/
 	output1 += "[";
 	output2 += "(";
 	int size = temp.getSize();
 	if (size == 0) return "";
 	for (int i = 0;i < size;i++) {
 		Mission* curr;
-		temp.dequeue(curr);
-		if (dynamic_cast<Mission_Emergency*>(curr)) {
+		temp.dequeue(curr); 
+		if (dynamic_cast<Mission_Emergency*>(curr)) { // If mission is Emergency, append to Output1
 			output1 += to_string(curr->get_id())+",";
 		}
-		else if (dynamic_cast<Mission_Polar*>(curr)) {
+		else if (dynamic_cast<Mission_Polar*>(curr)) { // If mission is Emergency, append to Output2
 			output2 += to_string(curr->get_id())+ ",";
 		}
 	}
-	if (output1 == "[") output1 = "";
-	if (output2 == "(") output2 = "";
-	if (output1 != "") output1.pop_back(), output1 += "]";
+	if (output1 == "[") output1 = ""; // If no emergency, clear string
+	if (output2 == "(") output2 = ""; // If no polar, clear string
+	if (output1 != "") output1.pop_back(), output1 += "]"; // If string not empty, delete last comma and add ending paranthesis
 	if (output2 != "") output2.pop_back(), output2 += ")";
 	return output1 + " " + output2;
 }
@@ -317,6 +334,9 @@ string  MarsStation::generateString_roverQ(Queue<Rover*> x) {
 	string output1 = "";
 	string output2 = "";
 	Queue<Rover*> temp = x;
+	/*
+	Same as above function but for rovers
+	*/
 	output1 += "[";
 	output2 += "(";
 	int size = temp.getSize();
@@ -347,16 +367,14 @@ string  MarsStation::generateString_rover_inExc(PriQ<Rover*> x) {
 	if (size == 0) return "";
 	for (int i = 0;i < size;i++) {
 		Rover* curr;
-		curr = temp.extract_max();
-		if (dynamic_cast<Rover_Emergency*>(curr)) {
-			Mission* hold;
-			hold = curr->get_Mission();
+		curr = temp.extract_max(); //Getting first element in PriQ
+		Mission* hold;
+		hold = curr->get_Mission();
+		if (dynamic_cast<Mission_Emergency*>(hold)) { // Generating string format for In-Exec missions
 			output1 += to_string(hold->get_id()) + "/";
 			output1 += to_string(curr->get_ID()) + ", ";
 		}
-		else if (dynamic_cast<Rover_Polar*>(curr)) {
-			Mission* hold;
-			hold = curr->get_Mission();
+		else if (dynamic_cast<Mission_Polar*>(hold)) {
 			output2 += to_string(hold->get_id()) + "/";
 			output2 += to_string(curr->get_ID()) + ", ";
 		}
@@ -396,6 +414,9 @@ string  MarsStation::generateString_rover_avail(PriQ<Rover*> x) {
 
 void MarsStation::OutputGenerator()
 {
+	/*
+	Five string lines for output on each day
+	*/
 	string line1, line2, line3, line4, line5, line6;
 	line1 = "Current Day:" + to_string(current_day);
 	int wait_mission = missions_emergency.getSize() + missions_polar.getSize();
@@ -410,4 +431,49 @@ void MarsStation::OutputGenerator()
 	line5 = to_string(in_checkup) + " In-Checkup Rovers: " + generateString_roverQ(rovers_emergency_checkup) + " " + generateString_roverQ(rovers_polar_checkup);
 	line6 = to_string(complete) + " Completed Missions: " + generateString_missionQ(missions_completed);
 	UserInterface->Print(line1, line2, line3, line4, line5, line6);
+
+}
+
+void MarsStation::SaveFileGenerator() {
+	
+	/*
+	Generating output file strings
+	*/
+
+	string line1 = "CD\tID\tFD\tWD\tED\n";
+	Mission* x;
+	string line2 = "";
+	int num_missions(0), num_pol(0), num_emerg(0), wait_time(0), exec_time(0);
+	int num_rov(0), num_pol_rov(0), num_emerg_rov(0);
+	while (missions_completed.dequeue(x)) {
+		num_missions++;
+		wait_time += x->get_WaitingDays();
+		exec_time += x->get_ExDays();
+		line2 += to_string(x->get_CompletionDay()) + "\t" + to_string(x->get_id()) 
+			+ "\t" + to_string(x->get_FormulationDay()) + "\t" + to_string(x->get_WaitingDays()) 
+			+ "\t" + to_string(x->get_ExDays()) + "\n";
+		if (dynamic_cast<Mission_Emergency*>(x)) num_emerg++;
+		else num_pol++;
+	}
+	Rover* y;
+	num_rov = rovers_emergency.getSize() + rovers_polar.getSize();
+	num_pol_rov = rovers_polar.getSize();
+	num_emerg_rov = rovers_emergency.getSize();
+	
+	string line3 = "Missions: " + to_string(num_missions) + " [P: " + to_string(num_pol) + ", E: " + to_string(num_emerg) + "]";
+	string line4 = "Rovers: " + to_string(num_rov) + " [P: " + to_string(num_pol_rov) + ", E: " + to_string(num_emerg_rov) + "]";
+	float avg_wait, avg_exec;
+
+	//Handling possible -but improbable- divison by zero
+	if (num_missions == 0) {
+		avg_wait = 0;
+		avg_exec = 0;
+	}
+	else {
+		avg_wait = 1.0 * wait_time / num_missions;
+		avg_exec = 1.0 * exec_time / num_missions;
+	}
+	
+	//Calling UI Save Function
+	UserInterface->SaveFile(line1, line2, line3, line4, avg_wait,avg_exec);
 }

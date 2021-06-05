@@ -8,6 +8,7 @@
 #include "../data sturctures/PriQ.h"
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 using namespace std;
 
@@ -44,8 +45,9 @@ public:
 	int get_E_Checkup_Dur() const;
 	int get_NumEvents() const;
 
-	void Print(string,string,string,string,string,string) const;
-	void getMode();
+	void Print(string,string,string,string,string,string) ;
+	void SaveFile(string, string, string, string, float,float);
+	int getMode();
 	void bye();
 	~UI();
 };

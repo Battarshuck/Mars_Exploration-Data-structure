@@ -56,6 +56,7 @@ public:
 	string generateString_rover_avail(PriQ<Rover*>);
 	string generateString_missionQ(Queue<Mission*>);
 	string generateString_missionP(PriQ<Mission*>);
+	void SaveFileGenerator();
 
 };
 

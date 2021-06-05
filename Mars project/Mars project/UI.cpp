@@ -107,22 +107,35 @@ void UI::Fill_Rovers(ifstream& fin, PriQ<Rover*>& rovers_emergency,
 	}
 }
 
-void UI::getMode() {
+int UI::getMode() {
 	cout << "Welcome To Mars Ground Station !\n";
 	cout << "Please choose mode of operation: 1-Interactive   2-Step-by-step   3-Silent\n";
 	cin >> mode;
+	return mode;
 }
 
-void UI::Print(string line1, string line2, string line3, string line4, string line5, string line6)const {
+void UI::Print(string line1, string line2, string line3, string line4, string line5, string line6) {
 	if (mode == 1) {
 		cin.ignore();
 		string x = "\n-------------------------------------------------------\n";
 		cout << line1 << endl << line2 << x << line3 << x << line4 << x << line5 << x << line6 << endl << endl;
 		
 	}
-	if (mode == 2) {
+	else if (mode == 2) {
 		string x = "\n-------------------------------------------------------\n";
 		cout << line1 << endl << line2 << x << line3 << x << line4 << x << line5 << x << line6 << endl << endl;
 		Sleep(1000);
 	}
 }
+
+void UI::SaveFile(string line1, string line2, string line3, string line4, float wait, float exec) {
+	if (mode != 3) return;
+	cout << "Silent Mode \nSimulation Starts...\n";
+	ofstream saved_file;
+	saved_file.open("saved_file.txt", ios::out | ios::trunc);
+	saved_file << line1 << endl << line2 << endl << line3 << endl << line4 << endl;
+	saved_file << "Avg. Wait= " << setprecision(3)<< wait << ", Avg. Exec= " << setprecision(3)<< exec;
+	saved_file.close();
+	cout << "Simulation ends, Output file created\n\n";
+}
+

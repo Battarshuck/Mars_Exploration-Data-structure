@@ -19,5 +19,5 @@ int Mission_Emergency::get_priority() const
 
 void Mission_Emergency::calculate_priority()
 {
-	priority = sig;
+	priority = -1*(3 * get_FormulationDay() + 1.5* get_numDay() + get_distance() / 200)+5*sig;
 }
