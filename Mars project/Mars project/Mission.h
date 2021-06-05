@@ -11,7 +11,7 @@ private:
 	int formulation_day; //input file
 	int completion_day;  //formulation + waiting_days + ex_days
 	int waiting_days;    //current_day - formulation
-	int ex_days;	     //num_days of excution days + ciel((2*distance/velocity)/25) (distance rover thing)
+	int ex_days;	     //num_days of excution days + ceil((2 * distance / velocity) / 25)
 	
 public:
 	Mission(int, int, int, int);
@@ -25,7 +25,7 @@ public:
 	virtual int get_ExDays() const;
 
 	void set_FormulationDay(int current_day);
-	void set_CompletionDay(); // we will set it in the set_WaitingDays function
+	void set_CompletionDay();
 	void set_WaitingDays(int current_day);
 	void set_ExDays(float velocity);
 };

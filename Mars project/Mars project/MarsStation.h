@@ -47,7 +47,7 @@ public:
 	void Assign_Emergency_Mission();	// Assigns E missions if possible
 	void Assign_Polar_Mission();		// Assigns P missions if possible
 
-	bool If_Failed();
+	bool If_Failed();					// Checks if mission has failed
 
 	/* string-generating functions */
 	void OutputGenerator();
@@ -56,7 +56,8 @@ public:
 	string generateString_rover_avail(PriQ<Rover*>);
 	string generateString_missionQ(Queue<Mission*>);
 	string generateString_missionP(PriQ<Mission*>);
-	void SaveFileGenerator();
+
+	void SaveFileGenerator();			// saves output file
 
 };
 

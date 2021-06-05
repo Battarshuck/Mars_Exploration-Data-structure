@@ -96,8 +96,6 @@ void UI::Fill_Rovers(ifstream& fin, PriQ<Rover*>& rovers_emergency,
 		rover = new Rover_Polar(Avg_P_Speed, Checkup, P_Checkup_Dur);	// creates the rover
 		rovers_polar.insert(rover, ((Rover_Polar*)rover)->get_Speed()); // places it in the list, sorted
 																		// descendingly according to speed
-		//mission = new Mission_Emergency(id, distance, num_days, sig, event_day);
-		//emergency.insert(mission, mission->get_priority());
 	}
 	for (int i = 0; i < E_Rovers; i++)
 	{
@@ -128,13 +126,14 @@ void UI::Print(string line1, string line2, string line3, string line4, string li
 	}
 }
 
-void UI::SaveFile(string line1, string line2, string line3, string line4, float wait, float exec) {
-	if (mode != 3) return;
-	cout << "Silent Mode \nSimulation Starts...\n";
+void UI::SaveFile(string line1, string line2, string line3, string line4, float wait, float exec, int fails) {
+	if (mode == 3) cout << "Silent Mode \nSimulation Starts...\n";
+	
 	ofstream saved_file;
 	saved_file.open("saved_file.txt", ios::out | ios::trunc);
 	saved_file << line1 << endl << line2 << endl << line3 << endl << line4 << endl;
-	saved_file << "Avg. Wait= " << setprecision(3)<< wait << ", Avg. Exec= " << setprecision(3)<< exec;
+	saved_file << "Avg. Wait = " << setprecision(3)<< wait << ", Avg. Exec = " << setprecision(3)<< exec;
+	saved_file << endl << "Failures = " << fails;
 	saved_file.close();
 	cout << "Simulation ends, Output file created\n\n";
 }

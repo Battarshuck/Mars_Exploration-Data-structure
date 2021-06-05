@@ -1,5 +1,5 @@
 #include "MarsStation.h"
-#include <time.h>
+#include <time.h> // to use sleep() function
 
 MarsStation::MarsStation()
 {
@@ -28,26 +28,26 @@ bool MarsStation::If_Failed()
 
 void MarsStation::simulate()
 {
+	Load(); // loads input file
 	while (num_events != missions_completed.getSize())
 	{
 		current_day++;
-		//1-Events to be formulated [a]
+		// 1- Events to be formulated
 		check_events();
 
-		//2-check if in-execution missions are done, to return rovers (mostafa) [ sh8al 3l execution ]
-		// mn in execution le available aw checkup
+		// 2- check if in-execution missions are done
+		// and moving rovers between available, checkup, and inexecution lists
 		check_inExecution();
 		check_inCheckup();
 
 
-		//3-Check first for emergency mission then polar to assign them to rover (hashish)
-		//4-movement of rovers through lists (hashish)  [ sh8al 3l waiting ] 
-		// mn available to in execution
+		//3-Check first for emergency mission then polar to assign them to rover
+		//4-movement of rovers from available to inexecution
 		Assign_Emergency_Mission();
 		Assign_Polar_Mission();
 
 	
-		//5-printing in the UI class (farah) [e,f]
+		//5-printing in the UI class
 		OutputGenerator();
 	}
 	
@@ -63,9 +63,8 @@ void MarsStation::simulate()
 	* Calling The Save File Generator
 	*/
 
-	SaveFileGenerator();
+	SaveFileGenerator();  // saves output file
 	UserInterface->bye();
-	// UI.save
 }
 
 
@@ -105,7 +104,6 @@ void MarsStation::check_inExecution()
 		temp_rover->set_Mission(nullptr);				//setting the current rover mission to nullptr
 
 		
-		// lw kda, hazawed el failure hena el awl
 		if (If_Failed()) // mission failed
 		{
 			Failed_Missions++;
@@ -168,7 +166,7 @@ void MarsStation::check_inCheckup()
 		// as all emergency rovers have the same duration
 		// if it is not the day of the first, therefore it is not the day of the second either
 		if (temp_rover->get_Checkup_endDay() != current_day)
-			return;
+			break;
 
 		rovers_emergency_checkup.dequeue(temp_rover);
 		temp_rover->set_Checkup_endDay(-1);
@@ -254,7 +252,7 @@ void MarsStation::Assign_Polar_Mission()
 {
 	Mission* mission;
 	Rover* rover;
-	while (missions_polar.peek(mission)) // there are missions in the Queue
+	while (missions_polar.peek(mission))  // there are missions in the Queue
 	{
 		if (!(rovers_polar.isEmpty()))    // there are avaibale P rovers
 		{
@@ -324,7 +322,7 @@ string  MarsStation::generateString_missionQ(Queue<Mission*> x) {
 	}
 	if (output1 == "[") output1 = ""; // If no emergency, clear string
 	if (output2 == "(") output2 = ""; // If no polar, clear string
-	if (output1 != "") output1.pop_back(), output1 += "]"; // If string not empty, delete last comma and add ending paranthesis
+	if (output1 != "") output1.pop_back(), output1 += "]"; // If string not empty, delete last comma and add ending parenthesis
 	if (output2 != "") output2.pop_back(), output2 += ")";
 	return output1 + " " + output2;
 }
@@ -440,7 +438,7 @@ void MarsStation::SaveFileGenerator() {
 	Generating output file strings
 	*/
 
-	string line1 = "CD\tID\tFD\tWD\tED\n";
+	string line1 = "CD\tID\tFD\tWD\tED";
 	Mission* x;
 	string line2 = "";
 	int num_missions(0), num_pol(0), num_emerg(0), wait_time(0), exec_time(0);
@@ -475,5 +473,5 @@ void MarsStation::SaveFileGenerator() {
 	}
 	
 	//Calling UI Save Function
-	UserInterface->SaveFile(line1, line2, line3, line4, avg_wait,avg_exec);
+	UserInterface->SaveFile(line1, line2, line3, line4, avg_wait, avg_exec, Failed_Missions);
 }

@@ -46,7 +46,7 @@ public:
 	int get_NumEvents() const;
 
 	void Print(string,string,string,string,string,string) ;
-	void SaveFile(string, string, string, string, float,float);
+	void SaveFile(string, string, string, string, float, float, int);
 	int getMode();
 	void bye();
 	~UI();

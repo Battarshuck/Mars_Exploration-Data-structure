@@ -3,7 +3,7 @@
 class Rover_Emergency : public Rover
 {
 private:
-	float Speed; // The actual speed of the rover, differs for each rover
+	float Speed; // The actual speed of the rover. It differs for each rover
 
 public:
 	Rover_Emergency(int, int, int);
