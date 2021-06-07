@@ -37,7 +37,7 @@ private:
 public:
 	MarsStation();
 
-	void Load();  // Loads the file to get input
+	bool Load();  // Loads the file to get input, and check is simulation is possible
 
 	void simulate();			// runs the simulation
 	void check_events();		// check if mission should be formulated today

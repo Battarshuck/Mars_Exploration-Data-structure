@@ -8,3 +8,6 @@ F E 2 3 100 5 5
 F E 3 4 100 4 5 
 F E 20 5 500 6 3 
 F P 20 6 900 7 4 
+
+// mission 3 and 4 are sorted according to
+// execution days, as they both have the same completion day

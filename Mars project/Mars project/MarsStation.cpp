@@ -12,23 +12,38 @@ MarsStation::MarsStation()
 }
 
 int Rover::ID = 0;
-void MarsStation::Load()
+bool MarsStation::Load()
 {	
-	UserInterface->getMode();
-	UserInterface->Read_File(Event_list, rovers_emergency, rovers_polar); // fills the queue with events
-	num_events = Event_list.getSize();
+	bool Valid_Simulation = UserInterface->Read_File(Event_list, 
+		rovers_emergency, rovers_polar); // fills the queue with events
+										 // and makes sure simulation is possible
+															
+	if (Valid_Simulation)
+	{
+		UserInterface->getMode();
+		num_events = Event_list.getSize();
+	}
+
+	return Valid_Simulation;
 }
 
 bool MarsStation::If_Failed()
 {
-	
 	int percentage = rand() % 101;		// generates a random number between 0 and 100
 	return (percentage < Failure_Percentage);
 }
 
 void MarsStation::simulate()
 {
-	Load(); // loads input file
+	bool Simulation_Possible = Load(); // loads input file
+
+	if (!Simulation_Possible)
+	{
+		// aborts simulation
+		UserInterface->Abort();
+		return;
+	}
+
 	while (num_events != missions_completed.getSize())
 	{
 		current_day++;
@@ -51,17 +66,17 @@ void MarsStation::simulate()
 		OutputGenerator();
 	}
 	
-	/*
-	Sending check-up rovers back to the original PriQ
-	*/
+	
+	//Sending check-up rovers back to the original PriQ
+	
 
 	Rover* temp;
 	while (rovers_polar_checkup.dequeue(temp)) rovers_polar.insert(temp,0);
 	while (rovers_emergency_checkup.dequeue(temp)) rovers_emergency.insert(temp,0);
 
-	/*
-	* Calling The Save File Generator
-	*/
+	
+	// Calling The Save File Generator
+	
 
 	SaveFileGenerator();  // saves output file
 	UserInterface->bye();
@@ -281,7 +296,7 @@ void MarsStation::Assign_Polar_Mission()
 	}
 }
 
-/* String-generating functions */
+// String-generating functions 
 string  MarsStation::generateString_missionP(PriQ<Mission*> x) {
 	string output = "";
 	PriQ<Mission*> temp = x;

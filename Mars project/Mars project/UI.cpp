@@ -9,6 +9,11 @@ UI::~UI()
 {
 }
 
+void UI::Abort()
+{
+	cout << "Simulation aborted due to improper input" << endl;
+}
+
 void UI::bye() {
 	cout << "GooooooodByyyeeeeeee :D" << endl;
 }
@@ -43,8 +48,9 @@ int UI::get_NumEvents() const
 	return Num_Events;
 }
 
-void UI::Read_File(Queue<Event*>& Event_List, PriQ<Rover*>& rovers_emergency, PriQ<Rover*>& rovers_polar)
+bool UI::Read_File(Queue<Event*>& Event_List, PriQ<Rover*>& rovers_emergency, PriQ<Rover*>& rovers_polar)
 {
+	bool Valid;
 	string filename;
 	cout << "Enter file name to be loaded: ";
 	cin >> filename;
@@ -56,30 +62,54 @@ void UI::Read_File(Queue<Event*>& Event_List, PriQ<Rover*>& rovers_emergency, Pr
 	if (fin.is_open()) // makes sure file was opened successfully
 	{
 		Fill_Rovers(fin, rovers_emergency, rovers_polar); // fills the rover lists
-		Fill_Events(fin, Event_List);					  // fills the event list
+		Valid = Fill_Events(fin, Event_List);			  // fills the event list
 	}
 
 	fin.close(); // closes file so other handles could use it later on
-
+	
+	return Valid;
 }
 
-void UI::Fill_Events(ifstream& fin, Queue<Event*>& Event_List)
+bool UI::Fill_Events(ifstream& fin, Queue<Event*>& Event_List)
 {
-	char type;
-	int event_day, id, distance, num_days, sig;
+	char type = 'x';
+	int event_day = -1, id = -1, distance = -1, num_days = -1, sig = -1;
 	
 	fin >> Num_Events;
+
+	// There are no rovers, but there are missions
+	// so simulation can't run properly
+	if (P_Rovers == 0 && E_Rovers == 0 && Num_Events != 0)
+	{
+		return false;
+	}
+
+	// There are rovers, but their speeds = 0
+	// so simulation can't run properly
+	if (Num_Events != 0 && ((P_Rovers != 0 && Avg_P_Speed == 0) || (E_Rovers != 0 && Avg_E_Speed == 0)))
+	{
+		return false;
+	}
+
 	for (int i = 0; i < Num_Events; i++)  // loads the data of each event
 	{
 		fin >> type >> type >> event_day >> id >> distance
 			>> num_days >> sig;
 		// Notice that type is overwritten first time
 		// This is because the event is always formulation event anyway
+		
+		// there are P missions, but no P rovers
+		// so simulation can't run properly
+		if ( P_Rovers == 0 && type == 'P' )
+		{
+			return false;
+		}
 
 		Event* Formulation = new Event(type, event_day, id, distance, num_days, sig);
 		Event_List.enqueue(Formulation);
 	}
 
+	return true; // simulation possible
 }
 
 void UI::Fill_Rovers(ifstream& fin, PriQ<Rover*>& rovers_emergency,

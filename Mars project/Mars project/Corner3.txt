@@ -1,0 +1,7 @@
+0 0
+10 20
+4 9 8
+0
+
+// works fine, despite having no E nor P rovers
+// that is because there are no missions as well
